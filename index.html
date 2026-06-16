@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רן סינרגיה · קונסול כבוד · הרפובליקה של קיריבטי 🌅</title>
+<style>
+  :root{
+    --red:#CE1126;
+    --red-deep:#9e0d1d;
+    --blue:#003F87;
+    --blue-deep:#012c5f;
+    --gold:#FFCE00;
+    --gold-soft:#FFE468;
+    --foam:#ffffff;
+    --ink:#10233b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Segoe UI","Assistant","Heebo",Arial,sans-serif;
+    color:var(--ink);
+    background:#001a3a;
+    overflow-x:hidden;
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    background:linear-gradient(180deg,var(--red) 0%,#e23b2e 38%,#ff6a3d 50%,#ffae5e 60%,var(--blue) 60%,var(--blue-deep) 100%);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    text-align:center;
+    padding:40px 20px 120px;
+  }
+
+  /* שמש זורחת עם קרניים */
+  .sun-wrap{
+    position:absolute;
+    top:30%;left:50%;
+    transform:translate(-50%,-50%);
+    width:520px;height:520px;
+    pointer-events:none;
+  }
+  .rays{
+    position:absolute;inset:0;
+    border-radius:50%;
+    background:repeating-conic-gradient(
+      from 0deg,
+      rgba(255,206,0,.0) 0deg 7deg,
+      rgba(255,224,104,.55) 7deg 11deg,
+      rgba(255,206,0,0) 11deg 17deg
+    );
+    animation:spin 26s linear infinite;
+    filter:drop-shadow(0 0 30px rgba(255,206,0,.6));
+  }
+  .sun{
+    position:absolute;
+    top:50%;left:50%;
+    width:170px;height:170px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,#fff3b0,var(--gold) 55%,#f5a623 100%);
+    box-shadow:0 0 60px 18px rgba(255,206,0,.75),0 0 130px 40px rgba(255,160,40,.45);
+    animation:pulse 4s ease-in-out infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.06)}}
+
+  /* ציפור הפריגייט */
+  .bird{
+    position:absolute;
+    top:16%;left:50%;
+    width:230px;
+    transform:translateX(-50%);
+    z-index:3;
+    animation:soar 9s ease-in-out infinite;
+    filter:drop-shadow(0 8px 14px rgba(0,0,0,.35));
+  }
+  @keyframes soar{
+    0%,100%{transform:translateX(-50%) translateY(0) rotate(-2deg)}
+    50%{transform:translateX(-50%) translateY(-22px) rotate(2deg)}
+  }
+  .wing-l,.wing-r{transform-box:fill-box;transform-origin:center right;animation:flapL 2.6s ease-in-out infinite}
+  .wing-r{transform-origin:center left;animation-name:flapR}
+  @keyframes flapL{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-12deg)}}
+  @keyframes flapR{0%,100%{transform:rotate(0deg)}50%{transform:rotate(12deg)}}
+
+  .hero-content{position:relative;z-index:4;margin-top:230px}
+  .badge{
+    display:inline-block;
+    background:rgba(0,0,0,.28);
+    color:var(--gold-soft);
+    border:1px solid rgba(255,206,0,.5);
+    padding:7px 18px;border-radius:999px;
+    font-size:13px;letter-spacing:3px;text-transform:uppercase;
+    backdrop-filter:blur(4px);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(40px,9vw,86px);
+    font-weight:900;
+    color:#fff;
+    line-height:1;
+    text-shadow:0 4px 0 var(--red-deep),0 10px 30px rgba(0,0,0,.45);
+    letter-spacing:-1px;
+  }
+  .hero h1 .glow{color:var(--gold);text-shadow:0 0 24px rgba(255,206,0,.9),0 4px 0 #b8860b}
+  .hero .tag{
+    color:#fff;font-size:clamp(16px,3.4vw,24px);
+    margin-top:14px;font-weight:600;
+    text-shadow:0 2px 10px rgba(0,0,0,.5);
+  }
+  .scroll-cue{
+    position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+    color:#fff;font-size:13px;z-index:5;opacity:.9;animation:bob 1.8s ease-in-out infinite;
+  }
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+  /* גלי אוקיינוס מונפשים (שלושת הגלים הלבנים של הדגל) */
+  .ocean{position:absolute;bottom:0;left:0;width:100%;height:230px;z-index:2;overflow:hidden}
+  .wave{
+    position:absolute;left:-50%;width:200%;height:100%;
+    background-repeat:repeat-x;background-position:0 bottom;
+  }
+  .w1{animation:drift 9s linear infinite;opacity:1}
+  .w2{animation:drift 13s linear infinite reverse;opacity:.85}
+  .w3{animation:drift 18s linear infinite;opacity:.7}
+  @keyframes drift{from{transform:translateX(0)}to{transform:translateX(25%)}}
+
+  /* ============ BODY ============ */
+  .content{
+    position:relative;z-index:5;
+    background:
+      radial-gradient(1200px 400px at 50% -10%,rgba(255,206,0,.10),transparent),
+      linear-gradient(180deg,var(--blue-deep),#022a52 60%,#01203f);
+    padding:10px 0 0;
+  }
+  .panel{max-width:880px;margin:0 auto;padding:30px 22px}
+
+  .intro{
+    background:linear-gradient(135deg,rgba(255,255,255,.97),rgba(255,247,224,.97));
+    border-radius:20px;padding:30px;
+    box-shadow:0 24px 60px rgba(0,0,0,.4);
+    border-top:6px solid var(--gold);
+    font-size:18px;line-height:1.9;
+    transform:translateY(-70px);
+  }
+  .intro strong{color:var(--red)}
+
+  h2.section{
+    color:#fff;font-size:clamp(24px,5vw,34px);font-weight:900;
+    text-align:center;margin:30px 0 6px;
+    text-shadow:0 2px 18px rgba(0,0,0,.5);
+  }
+  h2.section .em{color:var(--gold)}
+  .divider{
+    width:120px;height:5px;margin:0 auto 26px;border-radius:5px;
+    background:linear-gradient(90deg,var(--red),var(--gold),var(--blue));
+    background-size:200% 100%;animation:slideGrad 4s linear infinite;
+  }
+  @keyframes slideGrad{to{background-position:200% 0}}
+
+  .cards{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:18px;margin:24px 0;
+  }
+  .card{
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,206,0,.28);
+    border-radius:16px;padding:24px;
+    backdrop-filter:blur(8px);
+    transition:transform .35s,box-shadow .35s,border-color .35s;
+    color:#eaf2ff;
+  }
+  .card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 18px 40px rgba(0,0,0,.45);border-color:var(--gold)}
+  .card .ico{font-size:40px;margin-bottom:10px;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+  .card h3{color:var(--gold);font-size:19px;margin-bottom:8px}
+  .card p{font-size:15px;line-height:1.7;color:#d7e3f5}
+
+  .reason{
+    display:flex;gap:18px;align-items:flex-start;
+    background:rgba(255,255,255,.06);
+    border-inline-start:5px solid var(--gold);
+    border-radius:14px;padding:22px;margin:16px 0;
+    color:#eaf2ff;line-height:1.85;
+  }
+  .reason .n{
+    flex:none;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--red),var(--gold));
+    color:#fff;font-weight:900;font-size:20px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px rgba(0,0,0,.4);
+  }
+  .reason h3{color:#fff;font-size:19px;margin-bottom:4px}
+  .reason p{color:#cfe0f5;font-size:15.5px}
+
+  /* PLEDGE */
+  .pledge{
+    margin:34px 0;padding:34px;border-radius:22px;text-align:center;
+    background:linear-gradient(135deg,var(--red),#e23b2e 45%,var(--gold));
+    color:#fff;box-shadow:0 24px 60px rgba(206,17,38,.5);
+    position:relative;overflow:hidden;
+  }
+  .pledge::before{
+    content:"☀️";position:absolute;font-size:240px;opacity:.12;
+    top:-40px;left:-20px;transform:rotate(-15deg);
+  }
+  .pledge h2{font-size:clamp(22px,5vw,30px);font-weight:900;margin-bottom:12px;position:relative}
+  .pledge p{font-size:17px;line-height:1.9;max-width:680px;margin:0 auto;position:relative;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+
+  /* SIGN */
+  .sign{
+    text-align:center;color:#fff;padding:30px 0;
+  }
+  .sign .name{font-size:34px;font-weight:900;color:var(--gold);text-shadow:0 0 22px rgba(255,206,0,.6)}
+  .sign .role{color:#bcd2ee;margin-top:4px}
+  .sign .sig{
+    font-family:"Brush Script MT","Segoe Script",cursive;
+    font-size:46px;color:#fff;margin-top:16px;transform:rotate(-3deg);
+  }
+
+  footer{
+    background:linear-gradient(90deg,var(--red),var(--blue));
+    color:#fff;text-align:center;padding:26px 20px;font-size:15px;
+    letter-spacing:1px;
+  }
+  footer .gold{color:var(--gold);font-weight:700}
+  footer .small{display:block;opacity:.8;font-size:12px;margin-top:8px;letter-spacing:0}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media print{.bird,.rays,.scroll-cue,.ocean{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="sun-wrap">
+      <div class="rays"></div>
+      <div class="sun"></div>
+    </div>
+
+    <!-- ציפור הפריגייט (te eitei) -->
+    <svg class="bird" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+      <g fill="#1a1a1a">
+        <path class="wing-l" d="M120 58 C95 30 55 18 8 40 C40 44 60 56 78 70 C92 64 106 60 120 58 Z"/>
+        <path class="wing-r" d="M120 58 C145 30 185 18 232 40 C200 44 180 56 162 70 C148 64 134 60 120 58 Z"/>
+        <path d="M120 52 C128 52 134 58 134 66 L122 96 L110 70 C110 60 113 52 120 52 Z"/>
+        <path d="M132 60 L150 56 L134 66 Z"/>
+      </g>
+      <circle cx="124" cy="60" r="3.4" fill="#fff"/>
+      <path d="M120 70 q4 12 0 22 q-4 -10 0 -22Z" fill="#CE1126"/>
+    </svg>
+
+    <div class="hero-content">
+      <span class="badge">★ Honorary Consul · Republic of Kiribati ★</span>
+      <h1>רן <span class="glow">סינרגיה</span></h1>
+      <div class="tag">מועמדות לתפקיד קונסול כבוד · הרפובליקה של קיריבטי 🇰🇮</div>
+    </div>
+
+    <!-- אוקיינוס -->
+    <div class="ocean">
+      <div class="wave w1" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22120%22><path d=%22M0 60 C150 20 300 100 450 60 C525 40 575 50 600 60 L600 120 L0 120 Z%22 fill=%22%23ffffff%22/></svg>')"></div>
+      <div class="wave w2" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22120%22><path d=%22M0 70 C150 110 300 30 450 70 C525 90 575 80 600 70 L600 120 L0 120 Z%22 fill=%22%23bfe0ff%22/></svg>')"></div>
+      <div class="wave w3" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22120%22><path d=%22M0 80 C150 50 300 110 450 80 C525 65 575 72 600 80 L600 120 L0 120 Z%22 fill=%22%23ffffff%22/></svg>')"></div>
+    </div>
+
+    <div class="scroll-cue">⌄ גלול למטה ⌄</div>
+  </section>
+
+  <!-- ================= CONTENT ================= -->
+  <div class="content">
+    <div class="panel">
+
+      <div class="intro reveal">
+        אני, <strong>רן סינרגיה</strong>, מציג בזאת את מועמדותי לכהן כ<strong>קונסול כבוד</strong>
+        (Honorary Consul) של הרפובליקה של קיריבטי — לקדם את האינטרסים, הקשרים והנוכחות של המדינה,
+        ולשמש גשר חי בין אומת האיים של האוקיינוס השקט לבין הקהילה המקומית. 🌊☀️🦅
+      </div>
+
+      <h2 class="section reveal">מי <span class="em">אני</span></h2>
+      <div class="divider reveal"></div>
+      <div class="intro reveal" style="transform:none">
+        רן סינרגיה — איש קשרים, יזם וגשר בין-תרבותי. בניתי לאורך השנים רשת רחבה של קשרים עסקיים,
+        ציבוריים וקהילתיים, ויכולת מוכחת לחבר בין אנשים, ארגונים ומדינות סביב מטרה משותפת.
+        השם "סינרגיה" הוא גם תפיסת העולם שלי: יצירת ערך משותף שגדול מסך חלקיו.
+      </div>
+
+      <h2 class="section reveal">מה <span class="em">אביא</span> לתפקיד</h2>
+      <div class="divider reveal"></div>
+      <div class="cards">
+        <div class="card reveal"><span class="ico">🤝</span><h3>קשרים ונגישות</h3><p>רשת קשרים ענפה במגזר העסקי, הציבורי והדיפלומטי — פותחת דלתות עבור קיריבטי.</p></div>
+        <div class="card reveal"><span class="ico">📈</span><h3>קידום כלכלי</h3><p>זיהוי הזדמנויות לסחר, השקעות, תיירות ושיתופי פעולה לטובת כלכלת המדינה.</p></div>
+        <div class="card reveal"><span class="ico">🛟</span><h3>שירות לאזרחים</h3><p>סיוע קונסולרי, ליווי וייעוץ לאזרחי קיריבטי ולמבקרים — באדיבות ובמקצועיות.</p></div>
+        <div class="card reveal"><span class="ico">🌍</span><h3>הסברה ומודעות</h3><p>העלאת המודעות למאבק של קיריבטי בשינויי האקלים ולתרבותה הייחודית.</p></div>
+      </div>
+
+      <h2 class="section reveal">מדוע דווקא <span class="em">קיריבטי</span></h2>
+      <div class="divider reveal"></div>
+
+      <div class="reason reveal">
+        <div class="n">1</div>
+        <div><h3>אומה בחזית האקלים</h3><p>קיריבטי פזורה על 33 אטולים בלב האוקיינוס השקט ועומדת בקו החזית של ההתמודדות עם עליית פני הים — מדינה קטנה במספרה, עצומה במשמעותה.</p></div>
+      </div>
+      <div class="reason reveal">
+        <div class="n">2</div>
+        <div><h3>ייצוג פעיל, לא טקסי</h3><p>למדינה כזו מגיע נציג נלהב ונאמן שמייצר תוצאות — לא רק נוכחות פורמלית, אלא חיבורים שמניבים ערך אמיתי.</p></div>
+      </div>
+      <div class="reason reveal">
+        <div class="n">3</div>
+        <div><h3>גשר בין עמים</h3><p>אני מאמין בלב שלם בערך של חיבור בין תרבויות — וזו בדיוק המהות של תפקיד קונסול הכבוד.</p></div>
+      </div>
+
+      <div class="pledge reveal">
+        <h2>⚓ ההתחייבות שלי ⚓</h2>
+        <p>אם אזכה באמון ובמינוי, אכהן בנאמנות, ביושרה ובמסירות; אפעל ללא לאות לקידום האינטרסים של הרפובליקה של קיריבטי; אשרת את אזרחיה בכבוד; ואשא את שמה בגאווה. אעמיד לרשות התפקיד את הזמן, הקשרים והמשאבים שלי.</p>
+      </div>
+
+      <div class="sign reveal">
+        <div class="name">רן סינרגיה</div>
+        <div class="role">מועמד לתפקיד קונסול כבוד · הרפובליקה של קיריבטי</div>
+        <div class="sig">רן סינרגיה</div>
+      </div>
+
+    </div>
+
+    <footer>
+      <span class="gold">Te Mauri · Te Raoi · Te Tabomoa</span> — בריאות · שלום · שגשוג
+      <span class="small">Kiribati 🇰🇮 · Honorary Consul Application · רן סינרגיה</span>
+    </footer>
+  </div>
+
+  <script>
+    // חשיפה הדרגתית בגלילה
+    const io=new IntersectionObserver((es)=>{
+      es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+    },{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
